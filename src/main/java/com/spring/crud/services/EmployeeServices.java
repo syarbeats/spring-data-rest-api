@@ -38,4 +38,8 @@ public class EmployeeServices {
 		return empRepo.save(emp);
 	}
 	
+	@Transactional
+	public void deleteEmployee(Employee emp) {
+		 empRepo.delete(emp);
+	}
 }

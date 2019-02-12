@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,15 +41,34 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = EmployeeRestURI.GET_EMPLOYEE_BY_ID, method = RequestMethod.GET)
-	public @ResponseBody Employee getEmployeeById(@PathVariable("id") int id) {
+	public @ResponseBody ResponseEntity<?>  getEmployeeById(@PathVariable("id") int id) {
 		logger.info("Get Employee Data for Id: "+id);
-		return getEmployeeService().getEmployeeById(id);
+		
+		Employee emp;
+		
+		try{
+			emp = getEmployeeService().getEmployeeById(id);
+		}catch(Exception e)
+		{
+			return new ResponseEntity<String>("Data Employe dengan Id "+id+" tidak ditemukan",HttpStatus.NOT_FOUND);
+		
+		}
+		return new ResponseEntity(emp, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = EmployeeRestURI.GET_EMPLOYEE, method = RequestMethod.GET)
-	public @ResponseBody Employee getEmployee(@RequestParam(name="id") int id){
+	public @ResponseBody ResponseEntity<?> getEmployee(@RequestParam(name="id") int id){
 		logger.info("Get Employee Data for Id: "+id);
-		return getEmployeeService().getEmployeeById(id);
+		Employee emp;
+		
+		try{
+			emp = getEmployeeService().getEmployeeById(id);
+		}catch(Exception e)
+		{
+			return new ResponseEntity<String>("Data Employe dengan Id "+id+" tidak ditemukan",HttpStatus.NOT_FOUND);
+		
+		}
+		return new ResponseEntity(emp, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = EmployeeRestURI.UPDATE_EMPLOYEE, method = RequestMethod.POST)
@@ -60,6 +81,21 @@ public class EmployeeController {
 	public @ResponseBody Employee addEmployee(@RequestBody Employee emp){
 		logger.info("Add New Employee...");
 		return getEmployeeService().addEmployee(emp);
+	}
+	
+	@RequestMapping(value = EmployeeRestURI.DELETE_EMPLOYEE, method = RequestMethod.POST)
+	public @ResponseBody String deleteEmployee(@RequestBody Employee emp){
+		logger.info("Delete Employee with Id: "+emp.getId());
+		String response;
+		
+		try {
+			getEmployeeService().deleteEmployee(emp);
+			response = "Data with Id: "+emp.getId() + " has been deleted successfully...";
+		}catch(Exception e) {
+			response = e.getMessage();
+		}
+		
+		return response;
 	}
 	
 	public EmployeeServices getEmployeeService() {
