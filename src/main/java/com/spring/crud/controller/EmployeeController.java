@@ -27,16 +27,24 @@ public class EmployeeController {
 	
 	@RequestMapping(value = "/employeeList", method = RequestMethod.GET)
 	public String getEmployeeList(Model model){
-		List<Employee> empList = getEmployeeService().getEmployeeList();
+		List<Employee> empList = getEmployeeService().getEmployeeListWithoutPaging();
 		model.addAttribute("empList", empList);
 		return "employee_list";
 	}
 	
 	@RequestMapping(value = EmployeeRestURI.GET_EMPLOYEE_LIST, method = RequestMethod.GET)
-	public @ResponseBody List<Employee> getAllEmployees(){
+	public @ResponseBody ResponseEntity<?> getAllEmployees(@RequestParam(name="page") int page, @RequestParam(name="size") int size){
+		
 		logger.info("Getting all employees data....");
-		List<Employee> empList = getEmployeeService().getEmployeeList();
-		return empList;
+		List<Employee> empList;
+		
+		try{
+			empList = getEmployeeService().getEmployeeList(page, size);
+		}catch(Exception e)
+		{
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity(empList, HttpStatus.OK);
 		
 	}
 

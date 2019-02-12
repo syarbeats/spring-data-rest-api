@@ -3,11 +3,13 @@ package com.spring.crud.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.spring.crud.dao.EmployeeRepository;
+import com.spring.crud.dao.EmployeeRepositoryWithPaging;
 import com.spring.crud.model.Employee;
 
 @Service
@@ -16,8 +18,18 @@ public class EmployeeServices {
 	@Autowired
 	private EmployeeRepository empRepo;
 	
+	@Autowired
+	private EmployeeRepositoryWithPaging empRepoWithPaging;
+	
+	@SuppressWarnings("deprecation")
 	@Transactional
-	public List<Employee> getEmployeeList(){
+	public List<Employee> getEmployeeList(int page, int size){
+		
+		return Lists.newArrayList(empRepoWithPaging.findAll(new PageRequest(page,size)));
+	}
+	
+	@Transactional
+	public List<Employee> getEmployeeListWithoutPaging(){
 		
 		return Lists.newArrayList(empRepo.findAll());
 	}
