@@ -22,4 +22,20 @@ public class EmployeeServices {
 		return Lists.newArrayList(empRepo.findAll());
 	}
 	
+	@Transactional
+	public Employee getEmployeeById(int id) {
+		return empRepo.findById(id).get();
+	}
+	
+	@Transactional
+	public Employee updateEmployeeSalary(Employee emp) {
+		empRepo.save(emp);
+		return emp;
+	}
+	
+	@Transactional
+	public Employee addEmployee(Employee emp) {
+		return empRepo.save(emp);
+	}
+	
 }

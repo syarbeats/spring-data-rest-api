@@ -1,6 +1,5 @@
 package com.spring.crud.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,8 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.crud.model.Employee;
@@ -36,6 +38,30 @@ public class EmployeeController {
 		
 	}
 
+	@RequestMapping(value = EmployeeRestURI.GET_EMPLOYEE_BY_ID, method = RequestMethod.GET)
+	public @ResponseBody Employee getEmployeeById(@PathVariable("id") int id) {
+		logger.info("Get Employee Data for Id: "+id);
+		return getEmployeeService().getEmployeeById(id);
+	}
+	
+	@RequestMapping(value = EmployeeRestURI.GET_EMPLOYEE, method = RequestMethod.GET)
+	public @ResponseBody Employee getEmployee(@RequestParam(name="id") int id){
+		logger.info("Get Employee Data for Id: "+id);
+		return getEmployeeService().getEmployeeById(id);
+	}
+	
+	@RequestMapping(value = EmployeeRestURI.UPDATE_EMPLOYEE, method = RequestMethod.POST)
+	public @ResponseBody Employee updateEmployee(@RequestBody Employee emp){
+		logger.info("Update Employee...");
+		return getEmployeeService().updateEmployeeSalary(emp);
+	}
+	
+	@RequestMapping(value = EmployeeRestURI.ADD_EMPLOYEE, method = RequestMethod.POST)
+	public @ResponseBody Employee addEmployee(@RequestBody Employee emp){
+		logger.info("Add New Employee...");
+		return getEmployeeService().addEmployee(emp);
+	}
+	
 	public EmployeeServices getEmployeeService() {
 		return employeeService;
 	}
