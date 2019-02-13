@@ -91,12 +91,13 @@ public class EmployeeController {
 		return getEmployeeService().addEmployee(emp);
 	}
 	
-	@RequestMapping(value = EmployeeRestURI.DELETE_EMPLOYEE, method = RequestMethod.POST)
-	public @ResponseBody String deleteEmployee(@RequestBody Employee emp){
-		logger.info("Delete Employee with Id: "+emp.getId());
+	@RequestMapping(value = EmployeeRestURI.DELETE_EMPLOYEE, method = RequestMethod.DELETE)
+	public @ResponseBody String deleteEmployee(@PathVariable("id") int id){
+		logger.info("Delete Employee with Id: "+id);
 		String response;
 		
 		try {
+			Employee emp = getEmployeeService().getEmployeeById(id);
 			getEmployeeService().deleteEmployee(emp);
 			response = "Data with Id: "+emp.getId() + " has been deleted successfully...";
 		}catch(Exception e) {
