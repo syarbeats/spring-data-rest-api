@@ -15,6 +15,23 @@
   </properties>
   
   <dependencies>
+  <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-core</artifactId>
+	    <version>5.1.4.RELEASE</version>
+	</dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-web</artifactId>
+	    <version>5.1.4.RELEASE</version>
+	</dependency>
+	<dependency>  
+        <groupId>org.springframework.security</groupId>  
+        <artifactId>spring-security-config</artifactId>  
+        <version>5.1.4.RELEASE</version>  
+	</dependency> 
     <dependency>
 	    <groupId>javax.servlet</groupId>
 	    <artifactId>javax.servlet-api</artifactId>
@@ -176,7 +193,30 @@
 	</dependency>
 	
   </dependencies>
+  
   <build>
     <finalName>spring-mvc-crud-repository</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources/static</directory>
+        <includes>
+          <include>**/*.css</include>
+          <include>**/*.js</include>
+          <include>**/*.ico</include>
+        </includes>
+    </resource>
+   </resources>
+   <pluginManagement>
+   	<plugins>
+   		<plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-compiler-plugin</artifactId>          
+		    <configuration>
+		        <source>1.8</source>
+		        <target>1.8</target>
+		    </configuration>
+		 </plugin>
+   	</plugins>
+   </pluginManagement>
   </build>
 </project>

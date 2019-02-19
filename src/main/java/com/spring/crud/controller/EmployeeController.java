@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,25 @@ public class EmployeeController {
 
 	private final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 	private EmployeeServices employeeService;
+	
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Model model){
+		return "redirect:employeeList";
+	}
+	
+	
+	@RequestMapping(value = "/accessdenied", method = RequestMethod.GET)
+	public String denied(Model model){
+		return "accessdenied";
+	}
+	
+	@RequestMapping(value = "/auth", method = RequestMethod.GET)
+	public String authentication(@Validated Employee employee, Model model){
+		System.out.println("User Page Requested");
+		//model.addAttribute("name", employee.getName());
+		return "employee_list";
+	}
 	
 	@RequestMapping(value = "/employeeList", method = RequestMethod.GET)
 	public String getEmployeeList(Model model){
