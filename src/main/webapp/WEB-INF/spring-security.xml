@@ -17,14 +17,14 @@
     </http>  
     <authentication-manager>  
       <authentication-provider>  
-        <user-service>  
-        	<user name="user" password="password" authorities="ROLE_USER" />  
-        </user-service>  
         <password-encoder ref="encoder" />
+        <user-service>  
+        	<user name="user" password="$2a$10$gQxL5Z0XALoVXZ2nnk5KZu4DiZjR.L7bSUK6t/8BzpomBCvaNfa4O" authorities="ROLE_USER" />  
+        </user-service>  
       </authentication-provider>  
     </authentication-manager>    
 	
 	<beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-		<beans:constructor-arg name="strength" value="11" />
+		<beans:constructor-arg name="strength" value="10" />
 	</beans:bean>
 </beans:beans>  
